@@ -1,0 +1,186 @@
+<MainMenu>:
+    BoxLayout: 
+        orientation: 'vertical' 
+        
+        Button:
+            text: 'Просмотр данных'
+            font_size: '25'
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'browse'
+            
+        Button:
+            text: 'Отправка в БП'
+            font_size: '25'
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'second_screen'
+            
+
+        Button:
+            text: 'Приход из БП'
+            font_size: '25'
+            on_press: 
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'second_screen'
+        
+<SecondScreen>:
+    BoxLayout: 
+        orientation: 'vertical' 
+
+            
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+            
+            on_press: 
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+                
+            
+        TextInput:
+            id: number_detail
+            font_size: '25'
+            hint_text: 'Номер детали'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+            input_filter: 'float'
+            
+        Spinner:
+            id: name_detail
+            text: 'Наименование'
+            values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+            size_hint: (None, None)
+            font_size: '22'
+            pos_hint: {'center_x': .5}
+            size: 400, 44
+           
+        
+        TextInput:
+            id: quantity
+            font_size: '25'
+            hint_text: 'Количество'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+            input_filter: 'int'
+            
+                
+        TextInput:
+            id: comment
+            font_size: '25'
+            hint_text: 'Комментарий'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+        
+        
+        Button:
+            text: 'Добавить'
+            font_size: '25'
+            on_press: root.btn_add_press()
+            size_hint: (1, None)
+            height: 260
+            
+        Button:
+            text: 'exit'
+            font_size: '25'
+            on_press: quit()
+            size_hint: (1, None)
+            height: 210
+<Browse>:
+	BoxLayout:
+		orientation: 'vertical'
+		
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+            
+            on_press: 
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+
+		GridLayout:
+
+			cols: 2
+			row_force_default: True
+			row_default_height: 40
+			size_hint_y: .3
+
+
+            canvas:
+                Color:
+                    rgba: app.theme_cls.primary_color
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+			Label:
+                text: "Номер детали"
+                color: "black"
+                background_color: 1, 1, 1, 1
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                
+            CheckBox:
+            	group: 'check'
+            	id: chk_number
+                color:"red"
+
+            Label:
+                text: "Дата"
+                color: "black"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                
+            CheckBox:
+            	group: 'check'
+                id:chk_date
+                size_hint_x:.5
+                size_hint_y: .20
+                color:"red"
+
+            Label:
+                text: "Общий"
+                color: "black"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                
+            CheckBox:
+            	group: 'check'
+                id:chk_all
+                size_hint_y: .20
+                color:"red"
+                    
+        TextInput:
+            id: input_det
+            font_size: '25'
+            hint_text: 'Введите номер или дату'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+        
+
+                
+		Button:
+        	text: 'Смотреть'
+        	size_hint: (1, None)
+        	height: '40'
+        	font_size: '25'
+        	on_press: root.show_changes(chk_number.active, chk_date.active, chk_all.active)
+
+        # Browse:
+          #  id: data_scr
+
+        Label:
+            text: 'here can bea table'
+            color: "black"
+            		
