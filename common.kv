@@ -16,7 +16,6 @@
                 root.manager.transition.direction = 'left'
                 root.manager.current = 'second_screen'
             
-
         Button:
             text: 'Приход из БП'
             font_size: '25'
@@ -28,17 +27,14 @@
     BoxLayout: 
         orientation: 'vertical' 
 
-            
         Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
             height: '30'
             font_size: '15'
-            
-            on_press: 
+            on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
-                
             
         TextInput:
             id: number_detail
@@ -58,7 +54,6 @@
             pos_hint: {'center_x': .5}
             size: 400, 44
            
-        
         TextInput:
             id: quantity
             font_size: '25'
@@ -67,7 +62,6 @@
             height: 40
             multiline: False
             input_filter: 'int'
-            
                 
         TextInput:
             id: comment
@@ -76,8 +70,7 @@
             size_hint: (1, None)
             height: 40
             multiline: False
-        
-        
+
         Button:
             text: 'Добавить'
             font_size: '25'
@@ -91,6 +84,8 @@
             on_press: quit()
             size_hint: (1, None)
             height: 210
+
+
 <Browse>:
 	BoxLayout:
 		orientation: 'vertical'
@@ -100,8 +95,7 @@
             size_hint: (1, None)
             height: '30'
             font_size: '15'
-            
-            on_press: 
+            on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
 
@@ -111,7 +105,6 @@
 			row_force_default: True
 			row_default_height: 40
 			size_hint_y: .3
-
 
             canvas:
                 Color:
@@ -167,7 +160,6 @@
             size_hint: (1, None)
             height: 40
             multiline: False
-        
 
                 
 		Button:
@@ -175,12 +167,24 @@
         	size_hint: (1, None)
         	height: '40'
         	font_size: '25'
-        	on_press: root.show_changes(chk_number.active, chk_date.active, chk_all.active)
-
-        # Browse:
-          #  id: data_scr
+        #on_press: root.show_changes(chk_number.active, chk_date.active, chk_all.active)
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'table'
 
         Label:
             text: 'here can bea table'
             color: "black"
             		
+<TableWindow>:
+    BoxLayout:
+		orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'browse'
