@@ -99,60 +99,6 @@
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
 
-		GridLayout:
-
-			cols: 2
-			row_force_default: True
-			row_default_height: 40
-			size_hint_y: .3
-
-            canvas:
-                Color:
-                    rgba: app.theme_cls.primary_color
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-			Label:
-                text: "Номер детали"
-                color: "black"
-                background_color: 1, 1, 1, 1
-                size_hint_x: None
-                width: 220
-                font_size: 20
-                
-            CheckBox:
-            	group: 'check'
-            	id: chk_number
-                color:"red"
-
-            Label:
-                text: "Дата"
-                color: "black"
-                size_hint_x: None
-                width: 220
-                font_size: 20
-                
-            CheckBox:
-            	group: 'check'
-                id:chk_date
-                size_hint_x:.5
-                size_hint_y: .20
-                color:"red"
-
-            Label:
-                text: "Общий"
-                color: "black"
-                size_hint_x: None
-                width: 220
-                font_size: 20
-                
-            CheckBox:
-            	group: 'check'
-                id:chk_all
-                size_hint_y: .20
-                color:"red"
-                    
         TextInput:
             id: input_det
             font_size: '25'
@@ -161,16 +107,33 @@
             height: 40
             multiline: False
 
-                
-		Button:
-        	text: 'Смотреть'
+        Button:
+        	text: 'Смотреть по детали'
         	size_hint: (1, None)
         	height: '40'
         	font_size: '25'
-        #on_press: root.show_changes(chk_number.active, chk_date.active, chk_all.active)
+        	on_press:
+			    root.show_detail_table()
+
+
+        Button:
+        	text: 'Смотреть по дате'
+        	size_hint: (1, None)
+        	height: '40'
+        	font_size: '25'
+        	on_press:
+			    root.show_detail_date()
+                
+		Button:
+        	text: 'Смотреть полностью'
+        	size_hint: (1, None)
+        	height: '40'
+        	font_size: '25'
+        	#on_press:
+			 #   root.show_changes(chk_number.active, chk_date.active, chk_all.active)
             on_press:
                 root.manager.transition.direction = 'left'
-                root.manager.current = 'table'
+                root.manager.current = 'table_all'
 
         Label:
             text: 'here can bea table'
@@ -188,3 +151,6 @@
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'browse'
+
+		BoxLayout:
+			minimum_height: 3
