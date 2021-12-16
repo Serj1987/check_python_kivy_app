@@ -28,19 +28,11 @@ class SecondScreen(Screen):
 
 class Browse(Screen):
 
-    def show_changes(self, chk_number, chk_date, chk_all):
-
-        if chk_number:
-            print(self.ids.input_det.text, 'number')
-
-        if chk_date:
-            print(self.ids.input_det.text, 'date')
-
-        if chk_all:
-            print(self.ids.input_det.text, 'all')
+    def show_detail_table(self):
+        print(self.ids.input_det.text, 'number')
 
 
-class TableWindow(Screen):
+class TableAllWindow(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.data_tables = None
@@ -50,7 +42,7 @@ class TableWindow(Screen):
     def add_table(self):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
-        self.cur.execute("SELECT * FROM details")
+        self.cur.execute("SELECT * FROM details ")
         self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
@@ -80,7 +72,7 @@ class CommonApp(MDApp):
         sm.add_widget(MainMenu(name='main_menu'))
         sm.add_widget(SecondScreen(name='second_screen'))
         sm.add_widget(Browse(name='browse'))
-        sm.add_widget(TableWindow(name='table'))
+        sm.add_widget(TableAllWindow(name='table_all'))
         return sm
 
 
