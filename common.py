@@ -28,8 +28,8 @@ class SecondScreen(Screen):
 
 class Browse(Screen):
 
-    def show_detail_table(self):
-        print(self.ids.input_det.text, 'number')
+    def show_det(self):
+        print(type(int(self.ids.input_det.text)), 'number')
 
 
 class TableAllWindow(Screen):
@@ -39,10 +39,10 @@ class TableAllWindow(Screen):
         self.cur = None
         self.rows = None
 
-    def add_table(self):
+    def add_all_table(self):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
-        self.cur.execute("SELECT * FROM details ")
+        self.cur.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
         self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
@@ -62,7 +62,45 @@ class TableAllWindow(Screen):
         return layout
 
     def on_enter(self):
-        self.add_table()
+        self.add_all_table()
+
+
+class TableDetWindow(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.data_tables = None
+        self.cur = None
+        self.rows = None
+
+    def add_det_table(self):
+
+        self.con = sqlite3.connect('container.db')
+        self.cur = self.con.cursor()
+        browse = self.root.get_screen('browse')    ###########ERROR obj has no attribute 'root'
+        inp = browse.ids.input_det.text
+        self.det = inp
+        self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", self.det)
+
+        self.rows = self.cur.fetchall()
+
+        layout = AnchorLayout()
+        self.data_tables = MDDataTable(
+            use_pagination=True,
+            column_data=[
+                ("№ детали", dp(20)),
+                ("Наименование", dp(30)),
+                ("Количество", dp(15)),
+                ("Дата", dp(20)),
+                ("Примечание", dp(20)),
+                ("Метка", dp(30)),
+            ],
+            row_data=[self.row for self.row in self.rows],
+        )
+        self.add_widget(self.data_tables)
+        return layout
+
+    def on_enter(self):
+        self.add_det_table()
 
 
 class CommonApp(MDApp):
@@ -73,6 +111,7 @@ class CommonApp(MDApp):
         sm.add_widget(SecondScreen(name='second_screen'))
         sm.add_widget(Browse(name='browse'))
         sm.add_widget(TableAllWindow(name='table_all'))
+        sm.add_widget(TableDetWindow(name='table_det'))
         return sm
 
 
