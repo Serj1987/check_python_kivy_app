@@ -77,8 +77,8 @@ class TableDetWindow(Screen):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
         browse = self.root.get_screen('browse')    ###########ERROR obj has no attribute 'root'
-        inp = browse.ids.input_det.text
-        self.det = inp
+        self.det = browse.ids.input_det.text
+        
         self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", self.det)
 
         self.rows = self.cur.fetchall()
