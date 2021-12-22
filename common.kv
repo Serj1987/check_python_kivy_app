@@ -124,14 +124,14 @@
             on_press:
 		        root.show_detail_date()
                 
-	Button:
-	    text: 'Смотреть полностью'
-	    size_hint: (1, None)
-	    height: '40'
-	    font_size: '25'
-	    on_press:
-	        root.manager.transition.direction = 'left'
-	        root.manager.current = 'table_all'
+		Button:
+			text: 'Смотреть полностью'
+			size_hint: (1, None)
+			height: '40'
+			font_size: '25'
+			on_press:
+			    root.manager.transition.direction = 'left'
+			    root.manager.current = 'table_all'
 
         Label:
             text: 'here can bea table'
@@ -139,8 +139,8 @@
             		
 <TableDetWindow>:
     BoxLayout:
-	orientation: 'vertical'
-        Button:
+		orientation: 'vertical'
+    	Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
             height: '30'
