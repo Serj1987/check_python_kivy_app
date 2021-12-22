@@ -14,7 +14,7 @@
             font_size: '25'
             on_press:
                 root.manager.transition.direction = 'left'
-                root.manager.current = 'second_screen'
+                root.manager.current = 'send_screen'
             
         Button:
             text: 'Приход из БП'
@@ -23,7 +23,7 @@
                 root.manager.transition.direction = 'left'
                 root.manager.current = 'second_screen'
         
-<SecondScreen>:
+<SendScreen>:
     BoxLayout: 
         orientation: 'vertical' 
 
