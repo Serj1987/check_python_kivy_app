@@ -13,7 +13,7 @@ class MainMenu(Screen):
     pass
 
 
-class SecondScreen(Screen):
+class SendScreen(Screen):
 
     def btn_add_press(self):  # this func work with text from textinput and spinner
         if self.ids.number_detail.text != '':
@@ -79,7 +79,7 @@ class TableDetWindow(Screen):
         browse = self.manager.get_screen('browse')
         self.det = browse.ids.input_det.text
 
-        self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", self.det)
+        self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", (self.det,))
 
         self.rows = self.cur.fetchall()
 
@@ -102,13 +102,21 @@ class TableDetWindow(Screen):
     def on_enter(self):
         self.add_det_table()
 
+class Add_detail(Screen):
+""" this class will work with added parts in database in two tables arrived or sended parts """
+
+	def add_send(self):   # add details into send table
+		self.detail = browse.ids.number_detail.text, browse.ids.name_detail.text, browse.ids.quantity.text, browse.ids.comment.text
+
+	def add_arrive(self):    # add parts into details(arrived) table
+		self.detail = browse.ids.number_detail.text, browse.ids.name_detail.text, browse.ids.quantity.text, browse.ids.comment.text
 
 class CommonApp(MDApp):
 
     def build(self):
         sm = ScreenManager()  # transition=WipeTransition())
         sm.add_widget(MainMenu(name='main_menu'))
-        sm.add_widget(SecondScreen(name='second_screen'))
+        sm.add_widget(SendScreen(name='send_screen'))
         sm.add_widget(Browse(name='browse'))
         sm.add_widget(TableAllWindow(name='table_all'))
         sm.add_widget(TableDetWindow(name='table_det'))
