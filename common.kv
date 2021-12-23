@@ -21,7 +21,7 @@
             font_size: '25'
             on_press: 
                 root.manager.transition.direction = 'left'
-                root.manager.current = 'second_screen'
+                root.manager.current = 'arrive_screen'
         
 	
 <SendScreen>:
@@ -76,6 +76,69 @@
             text: 'Добавить'
             font_size: '25'
             on_press: root.btn_add_press()
+            size_hint: (1, None)
+            height: 260
+            
+        Button:
+            text: 'exit'
+            font_size: '25'
+            on_press: quit()
+            size_hint: (1, None)
+            height: 210
+
+	
+<ArriveScreen>:
+    BoxLayout: 
+        orientation: 'vertical' 
+
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+            
+        TextInput:
+            id: number_detail
+            font_size: '25'
+            hint_text: 'Номер детали'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+            input_filter: 'float'
+            
+        Spinner:
+            id: name_detail
+            text: 'Наименование'
+            values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+            size_hint: (None, None)
+            font_size: '22'
+            pos_hint: {'center_x': .5}
+            size: 400, 44
+           
+        TextInput:
+            id: quantity
+            font_size: '25'
+            hint_text: 'Количество'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+            input_filter: 'int'
+                
+        TextInput:
+            id: comment
+            font_size: '25'
+            hint_text: 'Комментарий'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+
+        Button:
+            text: 'Добавить в приходы'
+            font_size: '25'
+            on_press: root.add_arrive()
             size_hint: (1, None)
             height: 260
             
