@@ -26,6 +26,19 @@ class SendScreen(Screen):
             self.ids.comment.text = ''
 
 
+class ArriveScreen(Screen):
+    """ this class will work with added parts in database in two tables arrived or sent parts """
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.detail = None
+
+    def add_arrive(self):  # add parts into details(arrived) table
+        self.detail = self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, \
+                      self.ids.comment.text
+        print(self.detail)
+
+
 class Browse(Screen):
 
     def show_det(self):
@@ -35,6 +48,7 @@ class Browse(Screen):
 class TableAllWindow(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.con = None
         self.data_tables = None
         self.cur = None
         self.rows = None
@@ -73,7 +87,6 @@ class TableDetWindow(Screen):
         self.rows = None
 
     def add_det_table(self):
-
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('browse')
@@ -102,14 +115,6 @@ class TableDetWindow(Screen):
     def on_enter(self):
         self.add_det_table()
 
-class Add_detail(Screen):
-""" this class will work with added parts in database in two tables arrived or sended parts """
-
-	def add_send(self):   # add details into send table
-		self.detail = browse.ids.number_detail.text, browse.ids.name_detail.text, browse.ids.quantity.text, browse.ids.comment.text
-
-	def add_arrive(self):    # add parts into details(arrived) table
-		self.detail = browse.ids.number_detail.text, browse.ids.name_detail.text, browse.ids.quantity.text, browse.ids.comment.text
 
 class CommonApp(MDApp):
 
@@ -117,6 +122,7 @@ class CommonApp(MDApp):
         sm = ScreenManager()  # transition=WipeTransition())
         sm.add_widget(MainMenu(name='main_menu'))
         sm.add_widget(SendScreen(name='send_screen'))
+        sm.add_widget(ArriveScreen(name='arrive_screen'))
         sm.add_widget(Browse(name='browse'))
         sm.add_widget(TableAllWindow(name='table_all'))
         sm.add_widget(TableDetWindow(name='table_det'))
@@ -125,3 +131,4 @@ class CommonApp(MDApp):
 
 if __name__ == '__main__':
     CommonApp().run()
+
