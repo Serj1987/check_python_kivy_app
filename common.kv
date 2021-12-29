@@ -96,6 +96,7 @@
 
 	
 <ArriveScreen>:
+    update_lbl_ar: update_lbl_ar
     BoxLayout: 
         orientation: 'vertical' 
 
@@ -151,8 +152,8 @@
             height: 260
             
         Label:
-		    id: 'update_lbl_ar'
-			# text: '' #, number_detail.text
+		    id: update_lbl_ar
+		    text: ''#root.label_text #, number_detail.text
             font_size: '14'
             size_hint: (1, None)
             height:60
