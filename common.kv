@@ -79,24 +79,15 @@
             size_hint: (1, None)
             height: 260
             
-		Label:
-		    id: 'update_lbl_sent'
-			text: 'последняя деталь:' #, number_detail.text
-            font_size: '14'
-            size_hint: (1, None)
-            height:60
-            color: 'black'
-
         Button:
             text: 'exit'
             font_size: '25'
             on_press: quit()
             size_hint: (1, None)
-            height: 150
+            height: 210
 
 	
 <ArriveScreen>:
-    update_lbl_ar: update_lbl_ar
     BoxLayout: 
         orientation: 'vertical' 
 
@@ -147,25 +138,16 @@
         Button:
             text: 'Добавить в приходы'
             font_size: '25'
-            on_release: root.add_arrive()
+            on_press: root.add_arrive()
             size_hint: (1, None)
             height: 260
             
-        Label:
-		    id: update_lbl_ar
-		    text: ''#root.label_text #, number_detail.text
-            font_size: '14'
-            size_hint: (1, None)
-            height:60
-            color: 'black'
-
-
         Button:
             text: 'exit'
             font_size: '25'
             on_press: quit()
             size_hint: (1, None)
-            height: 150
+            height: 210
 
 
 <Browse>:
@@ -204,8 +186,7 @@
             height: '40'
             font_size: '25'
             on_press:
-				root.manager.transition.direction = 'left'
-		    	root.manager.current = 'table_date'
+		        root.show_detail_date()
                 
 		Button:
 			text: 'Смотреть полностью'
@@ -216,9 +197,9 @@
 			    root.manager.transition.direction = 'left'
 			    root.manager.current = 'table_all'
 
-      #  Label:
-       #     text: 'here can bea table'
-        #    color: "black"
+        Label:
+            text: 'here can bea table'
+            color: "black"
             		
 <TableDetWindow>:
     BoxLayout:
@@ -234,4 +215,4 @@
                 root.manager.current = 'browse'
 
 		BoxLayout:
-			minimum_height:10
+			minimum_height: 3
