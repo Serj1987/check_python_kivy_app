@@ -25,6 +25,7 @@
         
 	
 <SendScreen>:
+	update_lbl_sent: update_lbl_sent
     BoxLayout: 
         orientation: 'vertical' 
 
@@ -78,16 +79,25 @@
             on_press: root.btn_add_press()
             size_hint: (1, None)
             height: 260
-            
+        
+		Label:
+		    id: update_lbl_sent
+			text: 'последняя деталь:' #, number_detail.text
+            font_size: '14'
+            size_hint: (1, None)
+            height:60
+            color: 'black'
+    
         Button:
             text: 'exit'
             font_size: '25'
             on_press: quit()
             size_hint: (1, None)
-            height: 210
+            height: 150
 
 	
 <ArriveScreen>:
+	update_lbl_arr: update_lbl_arr
     BoxLayout: 
         orientation: 'vertical' 
 
@@ -141,13 +151,23 @@
             on_press: root.add_arrive()
             size_hint: (1, None)
             height: 260
-            
+
+
+		Label:
+		    id: update_lbl_arr
+			text: 'последняя деталь:' #, number_detail.text
+            font_size: '14'
+            size_hint: (1, None)
+            height:60
+            color: 'black'
+
+
         Button:
             text: 'exit'
             font_size: '25'
             on_press: quit()
             size_hint: (1, None)
-            height: 210
+            height: 150
 
 
 <Browse>:
@@ -186,7 +206,9 @@
             height: '40'
             font_size: '25'
             on_press:
-		        root.show_detail_date()
+		        root.manager.transition.direction = 'left'
+		    	root.manager.current = 'table_date'
+
                 
 		Button:
 			text: 'Смотреть полностью'
