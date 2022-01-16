@@ -135,7 +135,7 @@ class TableDetWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.add_widget(self.data_tables, index=1)
+        self.ids.make_up_an_id_here.add_widget(self.data_tables)
         return layout
 
     def on_enter(self):
