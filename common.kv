@@ -238,3 +238,20 @@
 
 		BoxLayout:
 			minimum_height: 3
+
+
+<TableDateWindow>:
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'browse'
+
+        BoxLayout:
+            minimum_height: 3
