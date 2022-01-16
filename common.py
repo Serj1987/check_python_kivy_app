@@ -167,7 +167,7 @@ class TableDateWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.add_widget(self.data_tables)
+        self.add_widget(self.data_tables, index=1)
         return layout
 
     def on_enter(self):
