@@ -66,10 +66,9 @@ class ArriveScreen(Screen):
                                            ' ' + str(self.ids.comment.text))
 
 class Browse(Screen):
-
-    def show_det(self):
-        print(type(int(self.ids.input_det.text)), 'number')
-
+    pass
+    # def build(self):
+        # self.ids.browse_layout.add_widget(TableAllWindow(add_all_table(self)))
 
 class TableAllWindow(Screen):
     def __init__(self, **kw):
@@ -88,6 +87,7 @@ class TableAllWindow(Screen):
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
+            rows_num=10,
             column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
@@ -98,12 +98,13 @@ class TableAllWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.add_widget(self.data_tables)
+        self.ids.all_table_layout.add_widget(self.data_tables)
         return layout
 
     def on_enter(self):
         self.add_all_table()
-
+    def yes(self):
+        print('yes')
 
 class TableDetWindow(Screen):
     def __init__(self, **kw):
@@ -125,6 +126,7 @@ class TableDetWindow(Screen):
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
+            rows_num=10,
             column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
@@ -135,7 +137,8 @@ class TableDetWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.add_widget(self.data_tables, index=1)
+        self.ids.det_layout.add_widget(self.data_tables)
+#        self.add_widget(self.data_tables, index=1)
         return layout
 
     def on_enter(self):
@@ -157,6 +160,7 @@ class TableDateWindow(Screen):
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
+            rows_num=10,
             column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
@@ -167,7 +171,7 @@ class TableDateWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.add_widget(self.data_tables, index=1)
+        self.ids.date_layout.add_widget(self.data_tables)
         return layout
 
     def on_enter(self):
