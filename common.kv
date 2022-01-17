@@ -172,6 +172,7 @@
 
 <Browse>:
 	BoxLayout:
+	    id: browse_layout
 	    orientation: 'vertical'
 		
         Button:
@@ -222,11 +223,12 @@
         Label:
             text: 'here can bea table'
             color: "black"
-            		
+
 <TableDetWindow>:
     BoxLayout:
+        id: det_layout
 		orientation: 'vertical'
-    	Button:
+	    Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
             height: '30'
@@ -236,12 +238,10 @@
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'browse'
 
-		BoxLayout:
-			minimum_height: 3
-
 
 <TableDateWindow>:
     BoxLayout:
+		id: date_layout
         orientation: 'vertical'
         Button:
             text: '<--Назад в предыдущее меню'
@@ -253,5 +253,17 @@
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'browse'
 
-        BoxLayout:
-            minimum_height: 3
+
+<TableAllWindow>:
+    BoxLayout:
+		id: all_table_layout
+        orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '30'
+            font_size: '15'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'browse'
