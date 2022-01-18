@@ -7,7 +7,7 @@
             font_size: '25'
             on_press:
                 root.manager.transition.direction = 'left'
-                root.manager.current = 'browse'
+                root.manager.current = 'table_all'
             
         Button:
             text: 'Отправка в БП'
@@ -236,7 +236,7 @@
 
             on_press:
                 root.manager.transition.direction = 'right'
-                root.manager.current = 'browse'
+                root.manager.current = 'table_all'
 
 
 <TableDateWindow>:
@@ -251,7 +251,7 @@
 
             on_press:
                 root.manager.transition.direction = 'right'
-                root.manager.current = 'browse'
+                root.manager.current = 'table_all'
 
 
 <TableAllWindow>:
@@ -266,4 +266,32 @@
 
             on_press:
                 root.manager.transition.direction = 'right'
-                root.manager.current = 'browse'
+                root.manager.current = 'main_menu'
+
+        TextInput:
+            id: input_det
+            font_size: '25'
+            hint_text: 'Введите номер или дату'
+            size_hint: (1, None)
+            height: 40
+            multiline: False
+
+        Button:
+			text: 'Смотреть по детали'
+			size_hint: (1, None)
+			height: '40'
+			font_size: '25'
+			on_press:
+				root.manager.transition.direction = 'left'
+		    	root.manager.current = 'table_det'
+
+        Button:
+            text: 'Смотреть по дате'
+            size_hint: (1, None)
+            height: '40'
+            font_size: '25'
+            on_press:
+		        root.manager.transition.direction = 'left'
+		    	root.manager.current = 'table_date'
+
+                
