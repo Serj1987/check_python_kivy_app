@@ -170,60 +170,6 @@
             height: 150
 
 
-<Browse>:
-	BoxLayout:
-	    id: browse_layout
-	    orientation: 'vertical'
-		
-        Button:
-            text: '<--Назад в предыдущее меню'
-            size_hint: (1, None)
-            height: '30'
-            font_size: '15'
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = 'main_menu'
-
-        TextInput:
-            id: input_det
-            font_size: '25'
-            hint_text: 'Введите номер или дату'
-            size_hint: (1, None)
-            height: 40
-            multiline: False
-
-        Button:
-			text: 'Смотреть по детали'
-			size_hint: (1, None)
-			height: '40'
-			font_size: '25'
-			on_press:
-				root.manager.transition.direction = 'left'
-		    	root.manager.current = 'table_det'
-
-        Button:
-            text: 'Смотреть по дате'
-            size_hint: (1, None)
-            height: '40'
-            font_size: '25'
-            on_press:
-		        root.manager.transition.direction = 'left'
-		    	root.manager.current = 'table_date'
-
-                
-		Button:
-			text: 'Смотреть полностью'
-			size_hint: (1, None)
-			height: '40'
-			font_size: '25'
-			on_press:
-			    root.manager.transition.direction = 'left'
-			    root.manager.current = 'table_all'
-
-        Label:
-            text: 'here can bea table'
-            color: "black"
-
 <TableDetWindow>:
     BoxLayout:
         id: det_layout
