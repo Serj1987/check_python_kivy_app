@@ -5,6 +5,7 @@ from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 import sqlite3
+from kivy.utils import get_color_from_hex
 
 Window.size = 375, 667
 
@@ -33,8 +34,8 @@ class SendScreen(Screen):
             all_data = cur.fetchall()
             con.commit()
             self.update_lbl_sent.text = str('Последняя деталь: ' + str(self.ids.number_detail.text) + ' ' +
-                                           str(self.ids.name_detail.text) + ' ' + str(self.ids.quantity.text) +
-                                           ' ' + str(self.ids.comment.text))
+                                            str(self.ids.name_detail.text) + ' ' + str(self.ids.quantity.text) +
+                                            ' ' + str(self.ids.comment.text))
 
 
 class ArriveScreen(Screen):
@@ -65,10 +66,12 @@ class ArriveScreen(Screen):
                                            str(self.ids.name_detail.text) + ' ' + str(self.ids.quantity.text) +
                                            ' ' + str(self.ids.comment.text))
 
+
 class Browse(Screen):
     pass
     # def build(self):
-        # self.ids.browse_layout.add_widget(TableAllWindow(add_all_table(self)))
+    # self.ids.browse_layout.add_widget(TableAllWindow(add_all_table(self)))
+
 
 class TableAllWindow(Screen):
     def __init__(self, **kw):
@@ -79,6 +82,7 @@ class TableAllWindow(Screen):
         self.rows = None
 
     def add_all_table(self):
+
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
         self.cur.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
@@ -87,8 +91,12 @@ class TableAllWindow(Screen):
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
-            rows_num=10,
-            column_data=[
+            rows_num=7,
+            pagination_menu_pos='auto',
+            #          background_color_header=get_color_from_hex("#65275d"),
+            # elevation=5,
+            # size_hint=(1, 0.1),
+			column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
                 ("Количество", dp(15)),
@@ -103,8 +111,7 @@ class TableAllWindow(Screen):
 
     def on_enter(self):
         self.add_all_table()
-    def yes(self):
-        print('yes')
+
 
 class TableDetWindow(Screen):
     def __init__(self, **kw):
@@ -116,7 +123,7 @@ class TableDetWindow(Screen):
     def add_det_table(self):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
-        browse = self.manager.get_screen('browse')
+        browse = self.manager.get_screen('table_all')
         self.det = browse.ids.input_det.text
 
         self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", (self.det,))
@@ -138,19 +145,23 @@ class TableDetWindow(Screen):
             row_data=[self.row for self.row in self.rows],
         )
         self.ids.det_layout.add_widget(self.data_tables)
-#        self.add_widget(self.data_tables, index=1)
+        #        self.add_widget(self.data_tables, index=1)
         return layout
 
     def on_enter(self):
         self.add_det_table()
 
+######
+
+
+######
 
 class TableDateWindow(Screen):
 
     def add_date_table(self):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
-        browse = self.manager.get_screen('browse')
+        browse = self.manager.get_screen('table_all')
         self.date = browse.ids.input_det.text
 
         self.cur.execute("SELECT * FROM send WHERE date = ? ORDER BY date DESC", (self.date,))
@@ -185,7 +196,7 @@ class CommonApp(MDApp):
         sm.add_widget(MainMenu(name='main_menu'))
         sm.add_widget(SendScreen(name='send_screen'))
         sm.add_widget(ArriveScreen(name='arrive_screen'))
-        sm.add_widget(Browse(name='browse'))
+        # sm.add_widget(Browse(name='browse'))
         sm.add_widget(TableAllWindow(name='table_all'))
         sm.add_widget(TableDetWindow(name='table_det'))
         sm.add_widget(TableDateWindow(name='table_date'))
