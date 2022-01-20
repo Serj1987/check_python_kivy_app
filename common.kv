@@ -74,7 +74,7 @@
             multiline: False
 
         Button:
-            text: 'Добавить'
+            text: 'Добавить в отправленные'
             font_size: '25'
             on_press: root.btn_add_press()
             size_hint: (1, None)
@@ -183,7 +183,13 @@
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'table_all'
-
+        Label:
+            text: 'ушло'
+			font_size: '16'
+			size_hint: (1, None)
+			height: 20
+			background_color: 'red'
+            color: 'black'
 
 <TableDateWindow>:
     BoxLayout:
