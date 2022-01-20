@@ -1,3 +1,4 @@
+import self as self
 from kivy.uix.anchorlayout import AnchorLayout
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen  # , WipeTransition
@@ -5,7 +6,7 @@ from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 import sqlite3
-from kivy.utils import get_color_from_hex
+
 
 Window.size = 375, 667
 
@@ -67,12 +68,6 @@ class ArriveScreen(Screen):
                                            ' ' + str(self.ids.comment.text))
 
 
-class Browse(Screen):
-    pass
-    # def build(self):
-    # self.ids.browse_layout.add_widget(TableAllWindow(add_all_table(self)))
-
-
 class TableAllWindow(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -82,21 +77,20 @@ class TableAllWindow(Screen):
         self.rows = None
 
     def add_all_table(self):
-
         self.con = sqlite3.connect('container.db')
-        self.cur = self.con.cursor()
-        self.cur.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
-        self.rows = self.cur.fetchall()
+        self.cur1 = self.con.cursor()
+        self.cur2 = self.con.cursor()
+        self.cur1.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
+        self.rows1 = self.cur1.fetchall()
 
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
             rows_num=7,
             pagination_menu_pos='auto',
-            #          background_color_header=get_color_from_hex("#65275d"),
             # elevation=5,
             # size_hint=(1, 0.1),
-			column_data=[
+            column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
                 ("Количество", dp(15)),
@@ -104,7 +98,7 @@ class TableAllWindow(Screen):
                 ("Примечание", dp(20)),
                 ("Метка", dp(30)),
             ],
-            row_data=[self.row for self.row in self.rows],
+            row_data=[self.row1 for self.row1 in self.rows1],
         )
         self.ids.all_table_layout.add_widget(self.data_tables)
         return layout
@@ -125,15 +119,17 @@ class TableDetWindow(Screen):
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.det = browse.ids.input_det.text
-
         self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", (self.det,))
-
         self.rows = self.cur.fetchall()
 
+        self.cur2 = self.con.cursor()
+        self.cur2.execute("SELECT * FROM details WHERE number_detail = ? ORDER BY date DESC", (self.det,))
+        self.rows2 = self.cur2.fetchall()
+
         layout = AnchorLayout()
-        self.data_tables = MDDataTable(
+        self.data_tables_sent = MDDataTable(
             use_pagination=True,
-            rows_num=10,
+            rows_num=5,
             column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
@@ -144,28 +140,43 @@ class TableDetWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-        self.ids.det_layout.add_widget(self.data_tables)
+        # second table
+        self.data_table_arrive = MDDataTable(
+            use_pagination=True,
+            rows_num=5,
+            column_data=[
+                ("№ детали", dp(20)),
+                ("Наименование", dp(30)),
+                ("Количество", dp(15)),
+                ("Дата", dp(20)),
+                ("Примечание", dp(20)),
+                ("Метка", dp(30)),
+            ],
+            row_data=[self.row for self.row in self.rows2],
+
+        )
+        self.ids.det_layout.add_widget(self.data_tables_sent)
+        self.ids.det_layout.add_widget(self.data_table_arrive)
         #        self.add_widget(self.data_tables, index=1)
         return layout
 
     def on_enter(self):
         self.add_det_table()
 
-######
-
-
-######
 
 class TableDateWindow(Screen):
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.cur = None
+        self.con = None
 
     def add_date_table(self):
         self.con = sqlite3.connect('container.db')
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.date = browse.ids.input_det.text
-
         self.cur.execute("SELECT * FROM send WHERE date = ? ORDER BY date DESC", (self.date,))
-
         self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
@@ -196,7 +207,6 @@ class CommonApp(MDApp):
         sm.add_widget(MainMenu(name='main_menu'))
         sm.add_widget(SendScreen(name='send_screen'))
         sm.add_widget(ArriveScreen(name='arrive_screen'))
-        # sm.add_widget(Browse(name='browse'))
         sm.add_widget(TableAllWindow(name='table_all'))
         sm.add_widget(TableDetWindow(name='table_det'))
         sm.add_widget(TableDateWindow(name='table_date'))
