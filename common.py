@@ -179,6 +179,11 @@ class TableDateWindow(Screen):
         self.cur.execute("SELECT * FROM send WHERE date = ? ORDER BY date DESC", (self.date,))
         self.rows = self.cur.fetchall()
 
+        self.cur2 = self.con.cursor()
+        self.cur2.execute("SELECT * FROM details WHERE date = ? ORDER BY date DESC", (self.date,))
+        self.rows2 = self.cur2.fetchall()
+
+
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
             use_pagination=True,
@@ -193,6 +198,22 @@ class TableDateWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
+
+        self.data_tables2 = MDDataTable(
+            use_pagination=True,
+            rows_num=10,
+            column_data=[
+                ("№ детали", dp(20)),
+                ("Наименование", dp(30)),
+                ("Количество", dp(15)),
+                ("Дата", dp(20)),
+                ("Примечание", dp(20)),
+                ("Метка", dp(30)),
+            ],
+            row_data=[self.row for self.row in self.rows2],
+        )
+
+        self.ids.date_layout.add_widget(self.data_tables2)
         self.ids.date_layout.add_widget(self.data_tables)
         return layout
 
