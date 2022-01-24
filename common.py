@@ -78,10 +78,9 @@ class TableAllWindow(Screen):
 
     def add_all_table(self):
         self.con = sqlite3.connect('container.db')
-        self.cur1 = self.con.cursor()
-        self.cur2 = self.con.cursor()
-        self.cur1.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
-        self.rows1 = self.cur1.fetchall()
+        self.cur = self.con.cursor()
+        self.cur.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
+        self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
@@ -93,19 +92,21 @@ class TableAllWindow(Screen):
             column_data=[
                 ("№ детали", dp(20)),
                 ("Наименование", dp(30)),
-                ("Количество", dp(15)),
+                ("Кол-во", dp(15)),
                 ("Дата", dp(20)),
                 ("Примечание", dp(20)),
                 ("Метка", dp(30)),
             ],
-            row_data=[self.row1 for self.row1 in self.rows1],
+            row_data=[self.row for self.row in self.rows],
         )
+          #  self.clear_widgets(self.data_tables)
         self.ids.all_table_layout.add_widget(self.data_tables)
         return layout
 
     def on_enter(self):
+        #self.ids.all_table_layout.remove_widget(self.ids.all_table_layout)
         self.add_all_table()
-
+    
 
 class TableDetWindow(Screen):
     def __init__(self, **kw):
