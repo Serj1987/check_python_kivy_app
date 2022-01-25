@@ -7,7 +7,6 @@ from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 import sqlite3
 
-
 Window.size = 375, 667
 
 
@@ -99,14 +98,17 @@ class TableAllWindow(Screen):
             ],
             row_data=[self.row for self.row in self.rows],
         )
-          #  self.clear_widgets(self.data_tables)
+        # self.ids.all_table_layout.remove_widget(self.data_tables)
         self.ids.all_table_layout.add_widget(self.data_tables)
         return layout
 
     def on_enter(self):
-        #self.ids.all_table_layout.remove_widget(self.ids.all_table_layout)
+        # self.ids.all_table_layout.remove_widget(self.data_tables)
         self.add_all_table()
-    
+
+    def remove_table(self):
+        self.ids.all_table_layout.remove_widget(self.data_tables)
+
 
 class TableDetWindow(Screen):
     def __init__(self, **kw):
@@ -164,6 +166,10 @@ class TableDetWindow(Screen):
     def on_enter(self):
         self.add_det_table()
 
+   # def remove_tables(self):
+    #    self.ids.all_table_layout.remove_widget(self.data_tables_sent)
+        #self.ids.all_table_layout.remove_widget(self.data_tables_arrive)
+
 
 class TableDateWindow(Screen):
 
@@ -183,7 +189,6 @@ class TableDateWindow(Screen):
         self.cur2 = self.con.cursor()
         self.cur2.execute("SELECT * FROM details WHERE date = ? ORDER BY date DESC", (self.date,))
         self.rows2 = self.cur2.fetchall()
-
 
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
@@ -220,6 +225,10 @@ class TableDateWindow(Screen):
 
     def on_enter(self):
         self.add_date_table()
+
+    def remove_tables(self):
+        self.ids.all_table_layout.remove_widget(self.data_tables)
+        self.ids.all_table_layout.remove_widget(self.data_tables2)
 
 
 class CommonApp(MDApp):
