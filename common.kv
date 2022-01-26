@@ -109,7 +109,7 @@
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
-            	
+            	root.remove_tables()
         TextInput:
             id: number_detail
             font_size: '25'
@@ -201,7 +201,7 @@
 			on_press:
 				root.manager.transition.direction = 'left'
 		    	root.manager.current = 'table_det'
-
+                root.remove_table()
         Button:
             text: 'Смотреть по дате'
             size_hint: (1, None)
@@ -210,7 +210,7 @@
             on_press:
 		        root.manager.transition.direction = 'left'
 		    	root.manager.current = 'table_date'
-
+                root.remove_table()
                 
 
 <TableDetWindow>:
@@ -226,7 +226,7 @@
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'table_all'
-
+                root.remove_tables()
         Label:
             text: 'ушло'
 			font_size: '16'
@@ -248,3 +248,5 @@
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'table_all'
+                root.remove_tables()
+ 
