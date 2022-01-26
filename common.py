@@ -113,6 +113,7 @@ class TableAllWindow(Screen):
 class TableDetWindow(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.data_table_arrive = None
         self.data_tables = None
         self.cur = None
         self.rows = None
@@ -166,9 +167,10 @@ class TableDetWindow(Screen):
     def on_enter(self):
         self.add_det_table()
 
-   # def remove_tables(self):
-    #    self.ids.all_table_layout.remove_widget(self.data_tables_sent)
-        #self.ids.all_table_layout.remove_widget(self.data_tables_arrive)
+    def remove_tables(self):
+#        self.ids.all_table_layout.remove_widget(self.data_tables)
+        self.ids.det_layout.remove_widget(self.data_table_arrive)
+        self.ids.det_layout.remove_widget(self.data_tables_sent)
 
 
 class TableDateWindow(Screen):
@@ -227,8 +229,8 @@ class TableDateWindow(Screen):
         self.add_date_table()
 
     def remove_tables(self):
-        self.ids.all_table_layout.remove_widget(self.data_tables)
-        self.ids.all_table_layout.remove_widget(self.data_tables2)
+        self.ids.date_layout.remove_widget(self.data_tables)
+        self.ids.date_layout.remove_widget(self.data_tables2)
 
 
 class CommonApp(MDApp):
