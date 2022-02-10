@@ -6,6 +6,8 @@ from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 import sqlite3
+import psycopg2
+from datetime import datetime, timezone
 
 Window.size = 375, 667
 
@@ -20,16 +22,20 @@ class SendScreen(Screen):
         if self.ids.number_detail.text != '':
             self.detail = self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, \
                           self.ids.comment.text
-            con = sqlite3.connect('container.db')  # (r'G:\задачи\project\tkinter\container.db')
+            con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com'
+                                   '/msojsqyh')  # connection string for work with psql
             cur = con.cursor()
             tag = 'отправка'
             rows = (
-                self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, self.ids.comment.text,
-                tag)
-            cur.execute("INSERT INTO send VALUES(?, ?, ?, DATE('now'), ?, ?)", rows)
+                self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, datetime.now(),
+                self.ids.comment.text, tag)
+            insert_in_sent_table = '''INSERT INTO sent(number_detail, name_detail, quantity_detail, date, note, tag) 
+                                      VALUES(%s, %s, %s, %s, %s, %s) '''
+            cur.execute(insert_in_sent_table, rows, )
+            #cur.execute("INSERT INTO sent VALUES(%s, %s, %s, datetime.datetime.now(), %s, %s)", rows)
             # sql requests write here ^ to add one string to table
 
-            cur.execute("SELECT * FROM send WHERE date = DATE('now')")  # number_det/name_det/note
+            cur.execute("SELECT * FROM sent WHERE date = DATE('now')")  # number_det/name_det/note
 
             all_data = cur.fetchall()
             con.commit()
@@ -49,13 +55,15 @@ class ArriveScreen(Screen):
         if self.ids.number_detail.text != '':
             self.detail = self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, \
                           self.ids.comment.text
-            con = sqlite3.connect('container.db')  # (r'G:\задачи\project\tkinter\container.db')
+            con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/msojsqyh')  # (r'G:\задачи\project\tkinter\container.db')
             cur = con.cursor()
             tag = 'приход'
             rows = (
-                self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, self.ids.comment.text,
-                tag)
-            cur.execute("INSERT INTO details VALUES(?, ?, ?, DATE('now'), ?, ?)", rows)
+                self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, datetime.now(),
+                self.ids.comment.text, tag)
+            insert_in_arrived_table = '''INSERT INTO details(number_detail, name_detail, quantity_detail, date, note, tag) 
+                                                  VALUES(%s, %s, %s, %s, %s, %s) '''
+            cur.execute(insert_in_arrived_table, rows, )
             # sql requests write here ^ to add one string to table
 
             cur.execute("SELECT * FROM details WHERE date = DATE('now')")  # number_det/name_det/note
@@ -76,9 +84,12 @@ class TableAllWindow(Screen):
         self.rows = None
 
     def add_all_table(self):
-        self.con = sqlite3.connect('container.db')
+        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com'
+                                    '/msojsqyh')
         self.cur = self.con.cursor()
-        self.cur.execute("SELECT * FROM details UNION SELECT * FROM send ORDER BY date DESC")
+        self.cur.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM details UNION "
+                         "SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent ORDER BY date"
+                         " DESC")
         self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
@@ -119,15 +130,17 @@ class TableDetWindow(Screen):
         self.rows = None
 
     def add_det_table(self):
-        self.con = sqlite3.connect('container.db')
+        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/msojsqyh')
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.det = browse.ids.input_det.text
-        self.cur.execute("SELECT * FROM send WHERE number_detail = ? ORDER BY date DESC", (self.det,))
+        self.cur.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent WHERE "
+                         "number_detail = ? ORDER BY date DESC", (self.det,))
         self.rows = self.cur.fetchall()
 
         self.cur2 = self.con.cursor()
-        self.cur2.execute("SELECT * FROM details WHERE number_detail = ? ORDER BY date DESC", (self.det,))
+        self.cur2.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM details WHERE "
+                          "number_detail = ? ORDER BY date DESC", (self.det,))
         self.rows2 = self.cur2.fetchall()
 
         layout = AnchorLayout()
@@ -181,11 +194,11 @@ class TableDateWindow(Screen):
         self.con = None
 
     def add_date_table(self):
-        self.con = sqlite3.connect('container.db')
+        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/msojsqyh')
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.date = browse.ids.input_det.text
-        self.cur.execute("SELECT * FROM send WHERE date = ? ORDER BY date DESC", (self.date,))
+        self.cur.execute("SELECT * FROM sent WHERE date = ? ORDER BY date DESC", (self.date,))
         self.rows = self.cur.fetchall()
 
         self.cur2 = self.con.cursor()
