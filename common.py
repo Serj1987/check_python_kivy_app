@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 
 Window.size = 375, 667
 
+connection_string = ('postgres://msojsqyh:xBl-########_hVXBc4ylHJbSamWhhib4j@ella.db.elephantsql.com/msojsqyh')
+
 
 class MainMenu(Screen):
     pass
@@ -22,8 +24,7 @@ class SendScreen(Screen):
         if self.ids.number_detail.text != '':
             self.detail = self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, \
                           self.ids.comment.text
-            con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com'
-                                   '/########qyh')  # connection string for work with psql
+            con = psycopg2.connect(connection_string)  # connection string for work with psql
             cur = con.cursor()
             tag = 'отправка'
             rows = (
@@ -32,7 +33,7 @@ class SendScreen(Screen):
             insert_in_sent_table = '''INSERT INTO sent(number_detail, name_detail, quantity_detail, date, note, tag) 
                                       VALUES(%s, %s, %s, %s, %s, %s) '''
             cur.execute(insert_in_sent_table, rows, )
-            #cur.execute("INSERT INTO sent VALUES(%s, %s, %s, datetime.datetime.now(), %s, %s)", rows)
+            # cur.execute("INSERT INTO sent VALUES(%s, %s, %s, datetime.datetime.now(), %s, %s)", rows)
             # sql requests write here ^ to add one string to table
 
             cur.execute("SELECT * FROM sent WHERE date = DATE('now')")  # number_det/name_det/note
@@ -55,7 +56,7 @@ class ArriveScreen(Screen):
         if self.ids.number_detail.text != '':
             self.detail = self.ids.number_detail.text, self.ids.name_detail.text, self.ids.quantity.text, \
                           self.ids.comment.text
-            con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/########qyh')  # (r'G:\задачи\project\tkinter\container.db')
+            con = psycopg2.connect(connection_string)
             cur = con.cursor()
             tag = 'приход'
             rows = (
@@ -84,8 +85,7 @@ class TableAllWindow(Screen):
         self.rows = None
 
     def add_all_table(self):
-        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com'
-                                    '/########qyh')
+        self.con = psycopg2.connect(connection_string)
         self.cur = self.con.cursor()
         self.cur.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM details UNION "
                          "SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent ORDER BY date"
@@ -130,7 +130,7 @@ class TableDetWindow(Screen):
         self.rows = None
 
     def add_det_table(self):
-        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/########qyh')
+        self.con = psycopg2.connect(connection_string)
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.det = browse.ids.input_det.text
@@ -181,7 +181,7 @@ class TableDetWindow(Screen):
         self.add_det_table()
 
     def remove_tables(self):
-#        self.ids.all_table_layout.remove_widget(self.data_tables)
+        #        self.ids.all_table_layout.remove_widget(self.data_tables)
         self.ids.det_layout.remove_widget(self.data_table_arrive)
         self.ids.det_layout.remove_widget(self.data_tables_sent)
 
@@ -194,7 +194,7 @@ class TableDateWindow(Screen):
         self.con = None
 
     def add_date_table(self):
-        self.con = psycopg2.connect('postgres://msojsqyh:MeYH5OCEXgPnKZLKA8SbdjMtIvano_PW@ella.db.elephantsql.com/########qyh')
+        self.con = psycopg2.connect(connection_string)
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.date = browse.ids.input_det.text
