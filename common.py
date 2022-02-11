@@ -134,13 +134,16 @@ class TableDetWindow(Screen):
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.det = browse.ids.input_det.text
-        self.cur.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent WHERE "
-                         "number_detail = ? ORDER BY date DESC", (self.det,))
+        self.select_detail_sent = "SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent WHERE " \
+                                  "number_detail = %s ORDER BY date DESC"
+
+        self.cur.execute(self.select_detail_sent, (self.det,))
         self.rows = self.cur.fetchall()
 
         self.cur2 = self.con.cursor()
-        self.cur2.execute("SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM details WHERE "
-                          "number_detail = ? ORDER BY date DESC", (self.det,))
+        self.select_detail_details = "SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM details" \
+                                     " WHERE number_detail = %s ORDER BY date DESC"
+        self.cur2.execute(self.select_detail_details, (self.det,))
         self.rows2 = self.cur2.fetchall()
 
         layout = AnchorLayout()
@@ -198,11 +201,15 @@ class TableDateWindow(Screen):
         self.cur = self.con.cursor()
         browse = self.manager.get_screen('table_all')
         self.date = browse.ids.input_det.text
-        self.cur.execute("SELECT * FROM sent WHERE date = ? ORDER BY date DESC", (self.date,))
+        self.select_date_sent = "SELECT number_detail, name_detail, quantity_detail, date, note, tag FROM sent " \
+                                "WHERE date = %s ORDER BY date DESC"
+        self.cur.execute(self.select_date_sent, (self.date,))
         self.rows = self.cur.fetchall()
 
         self.cur2 = self.con.cursor()
-        self.cur2.execute("SELECT * FROM details WHERE date = ? ORDER BY date DESC", (self.date,))
+        self.select_date_arrive = "SELECT number_detail, name_detail, quantity_detail, date, note, tag" \
+                                  " FROM details WHERE date = %s ORDER BY date DESC"
+        self.cur2.execute(self.select_date_arrive, (self.date,))
         self.rows2 = self.cur2.fetchall()
 
         layout = AnchorLayout()
