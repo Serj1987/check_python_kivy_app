@@ -188,7 +188,7 @@
         TextInput:
             id: input_det
             font_size: '25'
-            hint_text: 'Введите номер или дату'
+            hint_text: 'номер или дата(гггг-мм-дд)'
             size_hint: (1, None)
             height: 40
             multiline: False
@@ -227,13 +227,6 @@
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'table_all'
                 root.remove_tables()
-        Label:
-            text: 'ушло'
-			font_size: '16'
-			size_hint: (1, None)
-			height: 20
-			background_color: 'red'
-            color: 'black'
 
 <TableDateWindow>:
     BoxLayout:
