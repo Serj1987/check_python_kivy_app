@@ -4,25 +4,25 @@
         
         Button:
             text: 'Просмотр данных'
-            font_size: '25'
+            font_size: '90'
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = 'table_all'
             
         Button:
             text: 'Отправка в БП'
-            font_size: '25'
+            font_size: '90'
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = 'send_screen'
             
         Button:
             text: 'Приход из БП'
-            font_size: '25'
+            font_size: '90'
             on_press: 
                 root.manager.transition.direction = 'left'
                 root.manager.current = 'arrive_screen'
-        
+
 	
 <SendScreen>:
 	update_lbl_sent: update_lbl_sent
@@ -32,18 +32,18 @@
         Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
-            height: '30'
-            font_size: '15'
+            height: '90'
+            font_size: '65'
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
             
         TextInput:
             id: number_detail
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Номер детали'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
             input_filter: 'float'
             
@@ -51,50 +51,48 @@
             id: name_detail
             text: 'Наименование'
             values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
-            size_hint: (None, None)
-            font_size: '22'
+            font_size: '50'
             pos_hint: {'center_x': .5}
-            size: 400, 44
+            
            
         TextInput:
             id: quantity
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Количество'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
             input_filter: 'int'
                 
         TextInput:
             id: comment
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Комментарий'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
 
         Button:
             text: 'Добавить в отправленные'
-            font_size: '25'
+            font_size: '75'
             on_press: root.btn_add_press()
             size_hint: (1, None)
             height: 260
-        
+
 		Label:
 		    id: update_lbl_sent
 			text: 'последняя деталь:' #, number_detail.text
-            font_size: '14'
+            font_size: '55'
             size_hint: (1, None)
             height:60
             color: 'black'
     
         Button:
             text: 'exit'
-            font_size: '25'
+            font_size: '45'
             on_press: quit()
             size_hint: (1, None)
-            height: 150
-
+            height: 840
 	
 <ArriveScreen>:
 	update_lbl_arr: update_lbl_arr
@@ -104,18 +102,18 @@
         Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
-            height: '30'
-            font_size: '15'
+            height: '90'
+            font_size: '65'
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'main_menu'
  
         TextInput:
             id: number_detail
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Номер детали'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
             input_filter: 'float'
             
@@ -123,31 +121,30 @@
             id: name_detail
             text: 'Наименование'
             values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
-            size_hint: (None, None)
-            font_size: '22'
+            font_size: '50'
             pos_hint: {'center_x': .5}
-            size: 400, 44
+            
            
         TextInput:
             id: quantity
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Количество'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
             input_filter: 'int'
                 
         TextInput:
             id: comment
-            font_size: '25'
+            font_size: '50'
             hint_text: 'Комментарий'
             size_hint: (1, None)
-            height: 40
+            height: 130
             multiline: False
 
         Button:
             text: 'Добавить в приходы'
-            font_size: '25'
+            font_size: '75'
             on_press: root.add_arrive()
             size_hint: (1, None)
             height: 260
@@ -156,18 +153,18 @@
 		Label:
 		    id: update_lbl_arr
 			text: 'последняя деталь:' #, number_detail.text
-            font_size: '14'
+            font_size: '55'
             size_hint: (1, None)
             height:60
             color: 'black'
-
+    
 
         Button:
             text: 'exit'
-            font_size: '25'
+            font_size: '45'
             on_press: quit()
             size_hint: (1, None)
-            height: 150
+            height: 840
 
 
 <TableAllWindow>:
@@ -177,8 +174,8 @@
         Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
-            height: '30'
-            font_size: '15'
+            height: '50'
+            font_size: '45'
 
             on_press:
                 root.manager.transition.direction = 'right'
@@ -187,17 +184,17 @@
 
         TextInput:
             id: input_det
-            font_size: '25'
+            font_size: '55'
             hint_text: 'номер или дата(гггг-мм-дд)'
             size_hint: (1, None)
-            height: 40
+            height: '95'
             multiline: False
 
         Button:
 			text: 'Смотреть по детали'
 			size_hint: (1, None)
-			height: '40'
-			font_size: '25'
+			height: '95'
+			font_size: '50'
 			on_press:
 				root.manager.transition.direction = 'left'
 		    	root.manager.current = 'table_det'
@@ -205,14 +202,40 @@
         Button:
             text: 'Смотреть по дате'
             size_hint: (1, None)
-            height: '40'
-            font_size: '25'
+            height: '95'
+            font_size: '50'
             on_press:
 		        root.manager.transition.direction = 'left'
 		    	root.manager.current = 'table_date'
                 root.remove_table()
-                
 
+        Button:
+            text: 'Номенклатура'
+            size_hint: (1, None)
+            height: '95'
+            font_size: '50'
+            on_press:
+		        root.manager.transition.direction = 'left'
+		    	root.manager.current = 'nomenclature'
+                root.remove_table()
+
+
+
+<Nomenclature>:
+    BoxLayout:
+        id: nomenclature
+		orientation: 'vertical'
+	    Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '55'
+            font_size: '42'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'table_all'
+                root.remove_tables()
+        
 <TableDetWindow>:
     BoxLayout:
         id: det_layout
@@ -220,13 +243,30 @@
 	    Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
-            height: '30'
-            font_size: '15'
+            height: '55'
+            font_size: '42'
 
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'table_all'
                 root.remove_tables()
+
+		Label:
+			text: 'хочу чтобы, например здесь, '
+			
+			font_size: '25'
+            size_hint: (1, None)
+            height:40
+            color: 'black'
+
+		Label:
+			text: 'печатались остатки по каждой детали с таким номером'
+			
+			font_size: '25'
+            size_hint: (1, None)
+            height:40
+            color: 'black'
+
 
 <TableDateWindow>:
     BoxLayout:
@@ -235,8 +275,8 @@
         Button:
             text: '<--Назад в предыдущее меню'
             size_hint: (1, None)
-            height: '30'
-            font_size: '15'
+            height: '55'
+            font_size: '42'
 
             on_press:
                 root.manager.transition.direction = 'right'
