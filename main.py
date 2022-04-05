@@ -266,7 +266,7 @@ class Nomenclature(Screen):
         self.nom = browse.ids.input_det.text
         self.cur.execute(
             "SELECT DISTINCT child_number, child_name FROM inclusion WHERE parent_number LIKE %s",
-            (self.nom,))
+            ('%'+self.nom+'%',))
         self.rows = self.cur.fetchall()
 
         layout = AnchorLayout()
