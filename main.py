@@ -252,6 +252,46 @@ class TableDateWindow(Screen):
         self.ids.date_layout.remove_widget(self.data_tables)
         self.ids.date_layout.remove_widget(self.data_tables2)
 
+class Nomenclature(Screen):
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.cur = None
+        self.con = None
+
+    def get_nomenc(self):
+        self.con = psycopg2.connect(connection_string)
+        self.cur = self.con.cursor()
+        browse = self.manager.get_screen('table_all')
+        self.nom = browse.ids.input_det.text
+        self.cur.execute(
+            "SELECT DISTINCT child_number, child_name FROM inclusion WHERE parent_number LIKE %s",
+            (self.nom,))
+        self.rows = self.cur.fetchall()
+
+        layout = AnchorLayout()
+        self.data_tables = MDDataTable(
+            use_pagination=True,
+            rows_num=10,
+            pagination_menu_pos='auto',
+            # elevation=8,
+            # pagination_menu_height = '480dp',
+            size_hint=(1, 0.1),
+            column_data=[
+                ("№ детали", dp(20)),
+                ("Наименование", dp(30)),
+                 ],
+            row_data=[self.row for self.row in self.rows],
+            )
+        self.ids.nomenclature.add_widget(self.data_tables)
+        return layout
+
+    def on_enter(self):
+        self.get_nomenc()
+
+    def remove_tables(self):
+        self.ids.nomenclature.remove_widget(self.data_tables)
+
 
 class CommonApp(MDApp):
 
@@ -263,8 +303,9 @@ class CommonApp(MDApp):
         sm.add_widget(TableAllWindow(name='table_all'))
         sm.add_widget(TableDetWindow(name='table_det'))
         sm.add_widget(TableDateWindow(name='table_date'))
-
+        sm.add_widget(Nomenclature(name='nomenclature'))
         return sm
+
 
 
 if __name__ == '__main__':
